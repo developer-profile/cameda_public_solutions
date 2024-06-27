@@ -1,0 +1,16 @@
+# Создаём приоритет чуть выше дефолтного. Который равен нулю. 
+# Поды с меньшим приоритетом принудительно выселяться не будут. 
+
+apiVersion: scheduling.k8s.io/v1
+kind: PriorityClass
+metadata:
+  name: cam-pc
+  namespace: default
+  labels:
+    pc: main
+  annotations:
+    author: cameda
+value: 20
+preemptionPolicy: Never
+globalDefault: false
+description: "PC without preemption"

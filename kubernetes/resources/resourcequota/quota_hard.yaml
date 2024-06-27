@@ -1,0 +1,19 @@
+# Жёсткие ограничения по ресурсам для namespace=default
+
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: compute-resources
+  namespace: default
+  labels:
+    rq: main
+  annotations:
+    author: cameda
+spec:
+  hard:
+    requests.cpu: "5000m"
+    requests.memory: "2560Mi"
+    limits.cpu: "10000"
+    limits.memory: "3000Mi"
+    requests.nvidia.com/gpu: "1"
+    pods: "50"

@@ -1,0 +1,37 @@
+# Пример пода с установленным приоритетом, отличном от дефолтного.
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: cam-nginx-with-pc
+  namespace: default
+  labels:
+    app: nginx
+    env: test
+  annotations:
+    author: cameda
+spec:
+  containers:
+  - name: cam-nginx-with-pc
+    image: nginx:alpine
+    imagePullPolicy: IfNotPresent
+    resources:
+      requests:
+        cpu: 30m
+        memory: 30Mi
+      limits:
+        memory: 90Mi
+    ports:
+    - containerPort: 80
+    - containerPort: 443
+    livenessProbe:
+      failureThreshold: 10
+      successThreshold: 1
+      httpGet:
+        path: /
+        port: 80
+      periodSeconds: 10
+      timeoutSeconds: 1
+      initialDelaySeconds: 20
+  restartPolicy: Always
+  priorityClassName: cam-pc
