@@ -49,7 +49,7 @@ yc vpc subnet create \
   --async
 ```
 
-## bash.
+## bash
 ```
 export SUBNET=$(yc vpc subnet get subnet-d --folder-name cameda-practicum --format json | jq -r '.id')
 ```

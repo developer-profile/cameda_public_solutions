@@ -24,7 +24,7 @@ yc resource folder list-operations cameda-practicum
 yc resource folder list-access-bindings cameda-practicum
 ```
 
-## bash.
+## bash
 
 ```
 export FOLDER=$(yc resource folder get cameda-practicum --format=json | jq -r ".id")

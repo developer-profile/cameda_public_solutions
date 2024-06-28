@@ -87,7 +87,7 @@ yc vpc sg create --name cam-db \
 # Elasticsearch
 # Dataproc
 ```
-## bash.
+## bash
 ```
 export SG=$(yc vpc sg get k8s-sg --folder-name cameda-practicum --format=json | jq -r '.id')
 export SG=$(yc vpc sg get cam-db --folder-name cameda-practicum --format=json | jq -r '.id')

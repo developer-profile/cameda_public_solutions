@@ -17,7 +17,7 @@ yc vpc address create \
    --async
 ```
 
-## bash.
+## bash
 ```
 export IP=$(yc vpc address get main-vm --folder-name cameda-practicum  --format=json | jq -r ".external_ipv4_address" | jq -r ".address")
 ```
