@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-with-command
+  namespace: default
+  labels:
+    env: test
+  annotations:
+    author: cameda
+spec:
+  containers:
+  - name: pod-with-command
+    image: busybox
+    command: ["/bin/sh"]
+    args: ["-c", "touch /tmp/ready && sleep 1d"]
