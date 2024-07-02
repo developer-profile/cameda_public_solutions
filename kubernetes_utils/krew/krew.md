@@ -20,5 +20,5 @@ export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 ```
 
 ## Полезные ссылки.
-Установка krew: https://krew.sigs.k8s.io/docs/user-guide/setup/install/
-Список плагинов krew: https://krew.sigs.k8s.io/plugins/
+* Установка krew: https://krew.sigs.k8s.io/docs/user-guide/setup/install/
+* Список плагинов krew: https://krew.sigs.k8s.io/plugins/

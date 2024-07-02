@@ -24,10 +24,13 @@ kubectl krew search ktop
 kubectl krew install ktop
 ```
 
-## Пример использования.
+## Примеры использования.
 ```
 kubectl ktop --namespace my-app --context web-cluster
 kubectl ktop
 
 Выход - Esc.
 ```
+
+## Полезные ссылки.
+GitHUB проекта: https://github.com/vladimirvivien/ktop
