@@ -1,0 +1,57 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: cam-nginx
+  labels:
+    app: nginx
+    env: test
+  annotations:
+    author: cameda
+spec:
+  containers:
+  - name: cam-nginx
+    image: nginx:alpine
+    imagePullPolicy: IfNotPresent
+    resources:
+      requests:
+        cpu: 50m
+        memory: 50Mi
+      limits:
+        memory: 500Mi
+    ports:
+    - containerPort: 80
+    - containerPort: 443
+    livenessProbe:
+      failureThreshold: 10
+      successThreshold: 1
+      httpGet:
+        path: /
+        port: 80
+      periodSeconds: 10
+      timeoutSeconds: 5
+      initialDelaySeconds: 5
+    readinessProbe:
+      failureThreshold: 3
+      successThreshold: 1
+      exec:
+        command:
+        - curl
+        - http://127.0.0.1:80
+      periodSeconds: 10
+      timeoutSeconds: 1
+      initialDelaySeconds: 17
+    volumeMounts:
+    - name: cam-volume
+      mountPath: /mnt/cameda
+  restartPolicy: OnFailure
+  nodeName: cl14iev9l04rfqleuqa5-iguw
+  tolerations:
+  - key: "cam"
+    operator: "Exists"
+    effect: "NoSchedule"
+  - key: "cam"
+    operator: "Exists"
+    effect: "NoExecute"
+  volumes:
+  - name: cam-volume
+    emptyDir: {}

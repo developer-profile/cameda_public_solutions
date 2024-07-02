@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: dhclient-restart
+  labels:
+    environment: test
+    app: test
+  annotations:
+    author: cameda
+spec:
+  selector:
+    matchLabels:
+      app: dhclient
+  template:
+    metadata:
+      labels:
+        app: dhclient
+    spec:
+      containers:
+      - name: dhclient
+        image: busybox
+        command:
+        - /bin/sh
+        - -c
+        - |
+          while true; do
+            sudo dhclient -v -r
+            sudo dhclient
+            sleep 3600
+          done
+        securityContext:
+          privileged: true
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
