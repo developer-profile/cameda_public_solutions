@@ -1,0 +1,95 @@
+# Pod and Service type LoadBalancer
+
+## Описание
+Пример решения, использующего в работе Pod и Service с типом LoadBalancer.
+
+## Поехали!
+
+### Зарезервируем адрес для LoadBalancer
+```
+export FOLDER=$(yc resource folder get cameda-practicum --format=json | jq -r ".id")
+export ZONE=ru-central1-a
+yc vpc address create \
+   --folder-id $FOLDER \
+   --name lb-test \
+   --description "Load Balancer for test" \
+   --external-ipv4 zone=$ZONE \
+   --labels cameda=test \
+   --async
+
+export IP=$(yc vpc address get lb-test --folder-name cameda-practicum  --format=json | jq -r ".external_ipv4_address" | jq -r ".address")
+```
+
+### Манифесты.
+```
+apiVersion: v1
+kind: Pod
+metadata:
+  name: cam-nginx-for-test
+  namespace: default
+  labels:
+    app: nginx
+    env: test
+  annotations:
+    author: cameda
+spec:
+  containers:
+  - name: cam-nginx-for-test
+    image: nginx:alpine
+    imagePullPolicy: IfNotPresent
+    resources:
+      requests:
+        cpu: 30m
+        memory: 30Mi
+      limits:
+        memory: 90Mi
+    ports:
+    - containerPort: 80
+    - containerPort: 443
+    livenessProbe:
+      failureThreshold: 10
+      successThreshold: 1
+      httpGet:
+        path: /
+        port: 80
+      periodSeconds: 10
+      timeoutSeconds: 1
+      initialDelaySeconds: 5
+    readinessProbe:
+      failureThreshold: 3
+      successThreshold: 1
+      exec:
+        command:
+        - curl
+        - http://127.0.0.1:80
+      periodSeconds: 10
+      timeoutSeconds: 1
+      initialDelaySeconds: 5
+  restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: default
+  name: nginx-svc-lb-max
+  labels:
+    environment: test
+  annotations:
+    author: cameda
+spec:
+  type: LoadBalancer
+  selector:
+    app: nginx
+  ports:
+  - name: http
+    protocol: TCP
+    port: 80
+    targetPort: 80
+  - name: https
+    protocol: TCP
+    port: 443
+    targetPort: 443
+  externalTrafficPolicy: Local
+  loadBalancerIP: $IP
+  sessionAffinity: ClientIP
+  ```
