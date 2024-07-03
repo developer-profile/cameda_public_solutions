@@ -24,5 +24,33 @@ kubectl krew install count
   kubectl count -oy -n kube-system deploy,svc
 ```
 
+### Пример вывода.
+```
+kubectl count pods,ds,deploy
++-------------+------------------------+------------+-------+
+|  Namespace  |      GroupVersion      |    Kind    | Count |
++-------------+------------------------+------------+-------+
+| strimzi     | v1                     | Pod        |     1 |
++-------------+                        +            +-------+
+| default     |                        |            |     3 |
++-------------+                        +            +-------+
+| kube-system |                        |            |    23 |
++-------------+------------------------+------------+-------+
+| strimzi     | metrics.k8s.io/v1beta1 | PodMetrics |     1 |
++-------------+                        +            +-------+
+| default     |                        |            |     3 |
++-------------+                        +            +-------+
+| kube-system |                        |            |    22 |
++             +------------------------+------------+-------+
+|             | apps/v1                | DaemonSet  |     7 |
++-------------+                        +------------+-------+
+| strimzi     |                        | Deployment |     1 |
++-------------+                        +            +       +
+| default     |                        |            |       |
++-------------+                        +            +-------+
+| kube-system |                        |            |     5 |
++-------------+------------------------+------------+-------+
+```
+
 ## Полезные ссылки.
 GitHUB проекта: https://github.com/chenjiandongx/kubectl-count
