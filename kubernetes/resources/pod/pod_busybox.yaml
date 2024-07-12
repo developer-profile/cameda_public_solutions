@@ -21,15 +21,6 @@ spec:
         memory: "200Mi"
     command: ["sh", "-c"]
     args: ["sleep 24h"]
-    livenessProbe:
-      failureThreshold: 10
-      successThreshold: 1
-      httpGet:
-        path: /
-        port: 80
-      periodSeconds: 10
-      timeoutSeconds: 1
-      initialDelaySeconds: 5
   restartPolicy: OnFailure
   hostname: busybox
   nodeSelector:
