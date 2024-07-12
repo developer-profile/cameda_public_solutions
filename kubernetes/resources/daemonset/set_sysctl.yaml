@@ -1,3 +1,5 @@
+# Изменить настройки для net.core.somaxconn в sysctl.
+# Посмотреть текущие значения sysctl -a
 apiVersion: apps/v1
 kind: DaemonSet
 metadata:
