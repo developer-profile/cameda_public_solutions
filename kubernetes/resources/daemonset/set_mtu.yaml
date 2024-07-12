@@ -19,6 +19,7 @@ spec:
       containers:
       - name: set-mtu
         image: amouat/network-utils
+        imagePullPolicy: IfNotPresent
         command: ["sh", "-c"]
         args:
         - |

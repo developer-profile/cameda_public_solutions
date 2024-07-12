@@ -22,6 +22,7 @@ spec:
       containers:
       - name: install-prog
         image: busybox
+        imagePullPolicy: IfNotPresent
         securityContext:
           privileged: true
         resources:
