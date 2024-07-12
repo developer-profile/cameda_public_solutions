@@ -1,0 +1,36 @@
+# Pod with hostPath.
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-with-hostpath
+  namespace: default
+  labels:
+    pod: hostpath
+  annotations:
+    author: cameda
+spec:
+  containers:
+  - name: hostpath
+    image: busybox
+    imagePullPolicy: IfNotPresent
+    securityContext:
+      privileged: true
+    resources:
+      requests:
+        cpu: "100m"
+        memory: "120Mi"
+      limits:
+        memory: "200Mi"
+    command: ["sh", "-c"]
+    args: ["sleep 24h"]
+    volumeMounts:
+    - name: rotdir
+      mountPath: /mnt/cameda
+  hostNetwork: true
+  nodeSelector:
+    kubernetes.io/os: linux
+  volumes:
+  - name: rotdir
+    hostPath:
+      path: /
+      type: Directory

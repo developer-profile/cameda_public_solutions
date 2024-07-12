@@ -1,0 +1,56 @@
+# Install prog htop mc git make dstat on the cluster node.
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: install-prog
+  namespace: default
+  labels:
+    cam: install-prog
+    cam: ds
+    cam: prog
+  annotations:
+    author: cameda
+spec:
+  selector:
+    matchLabels:
+      app: install-prog
+  template:
+    metadata:
+      labels:
+        app: install-prog
+    spec:
+      containers:
+      - name: install-prog
+        image: busybox
+        securityContext:
+          privileged: true
+        resources:
+          requests:
+            cpu: "300m"
+            memory: "350Mi"
+          limits:
+            memory: "400Mi"
+        volumeMounts:
+        - name: rotdir
+          mountPath: /mnt/cameda
+        command: ["sh", "-c"]
+        args:
+        - |
+          chroot /mnt/cameda /bin/bash -c "
+            apt -y update && apt -y install htop mc git make dstat && sleep 24h
+          "]
+      hostNetwork: true
+      nodeSelector:
+        kubernetes.io/os: linux
+      volumes:
+      - name: rotdir
+        hostPath:
+          path: /
+          type: Directory
+      tolerations:
+      - key: "cam"
+        operator: "Exists"
+        effect: "NoSchedule"
+      - key: "cam"
+        operator: "Exists"
+        effect: "NoExecute"

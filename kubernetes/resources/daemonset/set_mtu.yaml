@@ -19,7 +19,10 @@ spec:
       containers:
       - name: set-mtu
         image: amouat/network-utils
-        command: ["sh", "-c", "ip link set dev eth0 mtu 1450"]
+        command: ["sh", "-c"]
+        args:
+        - |
+          ip link set dev eth0 mtu 1450 && sleep 24h
         securityContext:
           privileged: true
         resources:
