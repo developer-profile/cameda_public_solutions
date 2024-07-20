@@ -1,5 +1,4 @@
-# Deployment with Nginx
-
+# Deployment with Nginx.
 apiVersion: apps/v1
 kind: Deployment
 metadata:
