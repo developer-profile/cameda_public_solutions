@@ -1,27 +1,27 @@
-# Pod for check dns.
+# Pod with network-utils.
 apiVersion: v1
 kind: Pod
 metadata:
-  name: check-dns
+  name: cam-pod-for-test
   namespace: default
   labels:
-    env: test
+    cam: fortest
   annotations:
     author: cameda
 spec:
   containers:
-  - name: check-dns
-    image: k8s.gcr.io/jessie-dnsutils
+  - name: cam-container-for-test
+    image: amouat/network-utils
     imagePullPolicy: IfNotPresent
     resources:
       requests:
         cpu: "100m"
-        memory: "150Mi"
+        memory: "120Mi"
       limits:
         memory: "200Mi"
-    command: ["/bin/sh"]
-    args: ["-c", "sleep 1d"]
-  restartPolicy: Never
-  hostname: check-dns
+    command: ["sh", "-c"]
+    args: ["sleep 3650d"]
+  restartPolicy: OnFailure
+  hostname: testpod
   nodeSelector:
     kubernetes.io/os: linux

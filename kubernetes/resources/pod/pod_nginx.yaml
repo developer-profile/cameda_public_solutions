@@ -1,27 +1,27 @@
-# Pod with hostPath.
+# Pod with nginx alpine.
 apiVersion: v1
 kind: Pod
 metadata:
-  name: cam-pod-for-test
+  name: cam-pod-nginx
   namespace: default
   labels:
-    cam: fortest
+    cam: nginx
   annotations:
     author: cameda
 spec:
   containers:
-  - name: cam-container-for-test
-    image: amouat/network-utils
+  - name: nginx
+    image: nginx:alpine
     imagePullPolicy: IfNotPresent
     resources:
       requests:
-        cpu: "100m"
-        memory: "120Mi"
+        cpu: "50m"
+        memory: "50Mi"
       limits:
-        memory: "200Mi"
-    command: ["sh", "-c"]
-    args: ["sleep 3650d"]
+        memory: "100Mi"
+    ports:
+    - containerPort: 80
   restartPolicy: OnFailure
-  hostname: testpod
+  hostname: nginx
   nodeSelector:
     kubernetes.io/os: linux

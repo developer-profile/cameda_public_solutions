@@ -1,4 +1,4 @@
-# Pod with hostPath.
+# Pod with Ubuntu.
 apiVersion: v1
 kind: Pod
 metadata:
