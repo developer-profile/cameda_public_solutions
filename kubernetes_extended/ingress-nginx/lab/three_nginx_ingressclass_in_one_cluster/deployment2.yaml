@@ -1,0 +1,89 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cameda-nginx
+  namespace: two
+  labels:
+    app: nginx
+    environment: prod
+  annotations:
+    author: cameda
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx
+  strategy: 
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:alpine
+        imagePullPolicy: IfNotPresent
+        ports: 
+        - containerPort: 80
+        - containerPort: 443  
+        resources: 
+          requests: 
+            cpu: 50m
+            memory: 50Mi 
+          limits: 
+            memory: 120Mi
+        livenessProbe:
+          failureThreshold: 10
+          successThreshold: 1
+          httpGet:
+            path: /
+            port: 80
+          periodSeconds: 10
+          timeoutSeconds: 1
+          initialDelaySeconds: 5
+        readinessProbe:
+          failureThreshold: 3
+          successThreshold: 1
+          exec:
+            command:
+            - curl
+            - http://127.0.0.1:80
+          periodSeconds: 10
+          timeoutSeconds: 1
+          initialDelaySeconds: 7
+        volumeMounts:
+        - name: nginx-configmap
+          mountPath: /etc/nginx/conf.d
+          readOnly: true
+        - name: index
+          mountPath: /var/www/html/cameda1.tk
+          readOnly: true
+      restartPolicy: Always
+      dnsPolicy: ClusterFirst
+      hostname: nginx
+      subdomain: web
+      serviceAccountName: default
+      schedulerName: default-scheduler
+      terminationGracePeriodSeconds: 90
+      securityContext:
+        runAsUser: 0
+        runAsGroup: 0
+        fsGroup: 2000
+      tolerations:
+      - key: "cam"
+        operator: "Exists"
+        effect: "NoSchedule"
+      - key: "cam"
+        operator: "Exists"
+        effect: "NoExecute"
+      volumes:
+      - name: nginx-configmap
+        configMap:
+          name: nginx-config
+      - name: index
+        configMap:
+          name: index.html

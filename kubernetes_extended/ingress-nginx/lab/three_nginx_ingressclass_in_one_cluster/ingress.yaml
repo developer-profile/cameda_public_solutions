@@ -1,0 +1,71 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: nginx-ingress
+  namespace: one
+  labels:
+    ing: nginx
+    environment: prod
+  annotations:
+    author: cameda
+spec:
+  ingressClassName: nginx1
+  rules:
+    - host: one.cameda1.ru
+      http:
+        paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: service-nginx1
+              port:
+                number: 80
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: nginx-ingress
+  namespace: two
+  labels:
+    ing: nginx
+    environment: prod
+  annotations:
+    author: cameda
+spec:
+  ingressClassName: nginx2
+  rules:
+    - host: two.cameda1.ru
+      http:
+        paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: service-nginx2
+              port:
+                number: 80
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: nginx-ingress
+  namespace: three
+  labels:
+    ing: nginx
+    environment: prod
+  annotations:
+    author: cameda
+spec:
+  ingressClassName: nginx3
+  rules:
+    - host: three.cameda1.ru
+      http:
+        paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: service-nginx3
+              port:
+                number: 80

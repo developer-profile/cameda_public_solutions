@@ -1,0 +1,8 @@
+yc dns zone add-records --name prod-zone \
+--record "one.cameda1.tk. 600 A $IP1"
+
+yc dns zone add-records --name prod-zone \
+--record "two.cameda1.tk. 600 A $IP2"
+
+yc dns zone add-records --name prod-zone \
+--record "three.cameda1.tk. 600 A $IP3"

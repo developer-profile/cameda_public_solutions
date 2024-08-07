@@ -1,0 +1,31 @@
+export FOLDER=$(yc config get folder-id)
+export SUBNET=$(yc vpc subnet get subnet-a --format json | jq -r '.id')
+export SG=$(yc vpc sg get k8s-sg --format json | jq -r '.id')
+---
+yc vpc address create \
+  --folder-id $FOLDER \
+  --name test-nginx-ingress1 \
+  --description "Nginx ingress 1 IP cluster test" \
+  --labels test=nginx-ingress \
+  --external-ipv4 zone=ru-central1-a \
+  --async
+  
+yc vpc address create \
+  --folder-id $FOLDER \
+  --name test-nginx-ingress2 \
+  --description "Nginx ingress 2 IP cluster test" \
+  --labels test=nginx-ingress \
+  --external-ipv4 zone=ru-central1-b \
+  --async
+  
+yc vpc address create \
+  --folder-id $FOLDER \
+  --name test-nginx-ingress3 \
+  --description "Nginx ingress 3 IP cluster test" \
+  --labels test=nginx-ingress \
+  --external-ipv4 zone=ru-central1-c \
+  --async
+---
+export IP1=$(yc vpc address get test-nginx-ingress1 --format=json | jq -r ".external_ipv4_address" | jq -r ".address")
+export IP2=$(yc vpc address get test-nginx-ingress2 --format=json | jq -r ".external_ipv4_address" | jq -r ".address")
+export IP3=$(yc vpc address get test-nginx-ingress3 --format=json | jq -r ".external_ipv4_address" | jq -r ".address")

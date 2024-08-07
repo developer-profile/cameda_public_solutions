@@ -1,0 +1,12 @@
+kubectl create cm nginx-config --from-file default.conf -n one
+kubectl create cm nginx-config --from-file default.conf -n two
+kubectl create cm nginx-config --from-file default.conf -n three
+
+echo "One" > index.html
+kubectl create cm index.html --from-file index.html -n one
+
+echo "Two" > index.html
+kubectl create cm index.html --from-file index.html -n two
+
+echo "Three" > index.html
+kubectl create cm index.html --from-file index.html -n three

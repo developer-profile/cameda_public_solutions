@@ -1,0 +1,76 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cam-deploy-test-one
+  namespace: default
+  labels:
+    app: app-nginx
+    env: test
+  annotations:
+    author: cameda
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: app-nginx
+  template:
+    metadata:
+      labels:
+        app: app-nginx
+    spec:
+      containers:
+      - name: cam-nginx1
+        image: nginx:alpine
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 80
+        resources:
+          requests:
+            cpu: 50m
+            memory: 50M
+          limits:
+            memory: 120M
+      restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: cam-svc-test-one
+  namespace: default
+  labels:
+    service: test
+    env: test
+  annotations:
+    author: cameda
+spec:
+  type: ClusterIP
+  selector:
+    app: app-nginx
+  ports:
+  - name: http
+    port: 80
+    targetPort: 80
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-with-one-backend-test
+  namespace: default
+  labels:
+    ingress: test
+    env: test
+  annotations:
+    author: cameda
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: cat.cameda1.ru
+      http:
+        paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: cam-svc-test-one
+              port:
+                number: 80

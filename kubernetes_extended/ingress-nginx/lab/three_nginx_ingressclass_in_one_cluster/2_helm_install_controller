@@ -1,0 +1,35 @@
+#Установка первого nginx контроллера
+helm upgrade --install test-ingress-nginx1 ingress-nginx \
+--repo https://kubernetes.github.io/ingress-nginx \
+--namespace one --create-namespace \
+--debug \
+--set controller.ingressClass="nginx1" \
+--set controller.ingressClassResource.name="nginx1" \
+--set controller.ingressClassResource.controllerValue="cameda1.tk/ingress-nginx-1" \
+--set controller.ingressClassResource.enabled=true \
+--set controller.ingressClassByName=true \
+--set controller.service.loadBalancerIP=$IP1
+
+#Установка второго nginx контроллера
+helm upgrade --install ingress-nginx2 ingress-nginx \
+--repo https://kubernetes.github.io/ingress-nginx \
+--namespace two --create-namespace \
+--debug \
+--set controller.ingressClass="nginx2" \
+--set controller.ingressClassResource.name="nginx2" \
+--set controller.ingressClassResource.controllerValue="cameda1.tk/ingress-nginx-2" \
+--set controller.ingressClassResource.enabled=true \
+--set controller.ingressClassByName=true \
+--set controller.service.loadBalancerIP=$IP2
+
+#Установка третьего nginx контроллера
+helm upgrade --install ingress-nginx3 ingress-nginx \
+--repo https://kubernetes.github.io/ingress-nginx \
+--namespace three --create-namespace \
+--debug \
+--set controller.ingressClass="nginx3" \
+--set controller.ingressClassResource.name="nginx3" \
+--set controller.ingressClassResource.controllerValue="cameda1.tk/ingress-nginx-3" \
+--set controller.ingressClassResource.enabled=true \
+--set controller.ingressClassByName=true \
+--set controller.service.loadBalancerIP=$IP3
