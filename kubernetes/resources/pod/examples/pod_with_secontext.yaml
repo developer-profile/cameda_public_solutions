@@ -1,0 +1,60 @@
+# Пример пода с установленными ресурсами, пробами, контекстами безопасности.
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: cam-nginx-probe
+  namespace: default
+  labels:
+    app: nginx
+    env: test
+  annotations:
+    author: cameda
+spec:
+  containers:
+  - name: cam-nginx-probe
+    image: nginx:alpine
+    imagePullPolicy: IfNotPresent
+    resources:
+      requests:
+        cpu: 30m
+        memory: 30Mi
+      limits:
+        memory: 90Mi
+    ports:
+    - containerPort: 80
+    - containerPort: 443
+    securityContext:
+      capabilities:
+        drop:
+        - ALL
+      allowPrivilegeEscalation: false
+    livenessProbe:
+      failureThreshold: 10
+      successThreshold: 1
+      httpGet:
+        path: /
+        port: 80
+      periodSeconds: 10
+      timeoutSeconds: 1
+      initialDelaySeconds: 5
+    readinessProbe:
+      failureThreshold: 3
+      successThreshold: 1
+      exec:
+        command:
+        - curl
+        - http://127.0.0.1:80
+      periodSeconds: 10
+      timeoutSeconds: 1
+      initialDelaySeconds: 5
+  restartPolicy: Always
+  securityContext:
+    runAsUser: 101
+    runAsGroup: 101
+    fsGroup: 101
+    fsGroupChangePolicy: "OnRootMismatch"
+    runAsNonRoot: true
+  hostname: busybox
+  nodeSelector:
+    kubernetes.io/os: linux

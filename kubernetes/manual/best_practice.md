@@ -32,3 +32,10 @@ https://lyalyuev.info/2023/09/07/stop-using-cpu-limits-on-k8s/?ysclid=lx1x8u0glk
 
 ## Удаляем зависший namespace.
 https://lyalyuev.info/2022/09/19/k8s-ns-terminating/
+
+## Набор старых рекомендаций от Фланта.
+
+1. Защита внутреннего контура с помощью инструментов ingress-nginx (basic-auth).
+2. Использование OpenVPN внутри кластера для доступа к его внутренним ресурсам с помощью VPN.
+
+https://habr.com/ru/companies/flant/articles/427745/

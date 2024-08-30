@@ -1,7 +1,9 @@
 # Certificate Manager
 
 ## Создаём сертификат для валидации в Let's Encrypt.
-
+```
+export FOLDER=$(yc resource folder get cameda-practicum --format=json | jq -r ".id")
+```
 ```
 yc certificate-manager certificate request \
   --folder-id $FOLDER \

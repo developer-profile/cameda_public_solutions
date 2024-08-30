@@ -1,0 +1,61 @@
+# Redis. StatefulSet + PVC
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pvc-cam-redis-sts
+  namespace: default
+  labels:
+    app: sts-redis
+    environment: test
+  annotations:
+    author: cameda
+spec:
+  storageClassName: yc-network-hdd
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 8Gi
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: cam-redis-sts
+  namespace: default
+  labels:
+    app: sts-redis
+    environment: test
+  annotations:
+    author: cameda
+spec:
+  selector:
+    matchLabels:
+      app: redis-sts
+  serviceName: "cam-redis"
+  replicas: 1
+  minReadySeconds: 10 # by default is 0
+  template:
+    metadata:
+      labels:
+        app: redis-sts
+    spec:
+      terminationGracePeriodSeconds: 10
+      containers:
+      - name: redis
+        image: redis
+        ports:
+        - containerPort: 6379
+          name: redis
+        volumeMounts:
+        - name: redis
+          mountPath: /var/db
+      volumes:
+      - name: redis
+        persistentVolumeClaim:
+          claimName: pvc-cam-redis-sts
+
+------------------------------------------------------------------------------------------------------
+
+# Количество реплик нельзя увеличивать до 2 иначе будет ошибка:
+# Warning  FailedAttachVolume  2m31s  attachdetach-controller  Multi-Attach error for volume "pvc-a62764e5-d8f0-4480-9fe4-5b2d3c7a9492" Volume is already used by pod(s) cam-redis-sts-0

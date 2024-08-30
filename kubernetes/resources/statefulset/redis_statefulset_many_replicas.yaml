@@ -1,0 +1,45 @@
+# Redis. StatefulSet + PVC
+
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: cam-redis-sts
+  namespace: default
+  labels:
+    app: sts-redis
+    environment: test
+  annotations:
+    author: cameda
+spec:
+  selector:
+    matchLabels:
+      app: redis-sts
+  serviceName: "cam-redis"
+  replicas: 6
+  minReadySeconds: 10 # by default is 0
+  template:
+    metadata:
+      labels:
+        app: redis-sts
+    spec:
+      terminationGracePeriodSeconds: 10
+      containers:
+      - name: redis
+        image: redis
+        ports:
+        - containerPort: 6379
+          name: redis
+        volumeMounts:
+        - name: redis
+          mountPath: /var/db
+    volumeClaimTemplates:
+    - metadata:
+        name: redis
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        storageClassName: yc-network-hdd
+        resources:
+          requests:
+            storage: 480Gi
+------------------------------------------------------------------------------------------------------
+
