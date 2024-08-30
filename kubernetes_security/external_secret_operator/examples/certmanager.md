@@ -84,3 +84,6 @@ external-secret-cm   secret-store-cm   22h                SecretSynced   True
 ### Обратить внимание!
 * Обязательно нужно выдать права на сертификат для SA. По-умолчанию их нет.
 * Имена tls.crt и tls.key не имеют значения. Важно чтобы кодировка была PEM.
+
+## Мануал.
+https://external-secrets.io/main/provider/yandex-certificate-manager/

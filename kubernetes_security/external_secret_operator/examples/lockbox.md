@@ -133,3 +133,6 @@ ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDI98mJDBN9cnp6HOdBYTQILeAhUSDvDfoqA9iLmVPD
 ```
 
 В конце нет имени пользователя. Потому что я его удалил. Синхронизация секрета выполнилась!
+
+## Мануал.
+https://external-secrets.io/main/provider/yandex-lockbox/
