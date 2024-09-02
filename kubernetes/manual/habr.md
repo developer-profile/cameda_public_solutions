@@ -5,10 +5,6 @@
 Про их взаимодействие с Kubelet. Про стандарт OCI.
 https://habr.com/ru/articles/657641/
 
-## Жизнь пода.
-Про статусы пода.
-https://habr.com/ru/companies/flant/articles/415393/
-
 ## Зачем нужен контейнер pause?
 Он делит один сетевой namespace вместе с контейнерами в поде.
 
@@ -19,20 +15,3 @@ https://habr.com/ru/companies/flant/articles/415393/
 Это контейнер-шаблон, который резервирует namespaces, которые являются общими для всех контейнеров внутри пода.
 
 https://habr.com/ru/companies/slurm/articles/715402/
-
-## Сравнение ingress контроллеров.
-Сравниваются между собой: ingress-nginx, nginx-ingress, istio, contour, haproxy, traefik, kong, ambassador.
-
-1. Какие протоколы поддерживаются;
-2. Есть ли поддержка JWT;
-3. Алгоритмы балансировки;
-4. Способы аутентификации;
-5. Способы распределения трафика (canary, blue-green, etc);
-6. Базовая ddos защита;
-7. WAF;
-8. Графический интерфейс.
-
-Ingress nginx - норм по функционалу;
-Istio - самые богатые возможности.
-
-https://habr.com/ru/companies/flant/articles/447180/
