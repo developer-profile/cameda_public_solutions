@@ -15,3 +15,9 @@ https://habr.com/ru/articles/657641/
 Это контейнер-шаблон, который резервирует namespaces, которые являются общими для всех контейнеров внутри пода.
 
 https://habr.com/ru/companies/slurm/articles/715402/
+
+## История о жрущем память API-сервере Kubernetes
+Prometheus operator вотчингом секретов выедал память API Server.
+https://habr.com/ru/companies/rtlabs/articles/732858/
+
+Также тут есть ссылка на инструмент, позволяющий смотреть вотчи: https://github.com/aquasecurity/kubectl-who-can
