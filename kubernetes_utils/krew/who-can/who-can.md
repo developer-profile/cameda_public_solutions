@@ -30,4 +30,5 @@ yc:editor                                    yc:editor                        Gr
 
 ## Полезные ссылки.
 GitHUB проекта: https://github.com/aquasecurity/kubectl-who-can
+
 Habr статья, где есть пример использования: https://habr.com/ru/companies/rtlabs/articles/732858/
