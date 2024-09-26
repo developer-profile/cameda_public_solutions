@@ -12,8 +12,10 @@
 
 ## Архитектура.
 Вся магия этого решения базируется на CRD.
-Сайт проекта: https://openkruise.io/
-Arhitecture: https://openkruise.io/docs/core-concepts/architecture
+
+* Сайт проекта: https://openkruise.io/
+
+* Arhitecture: https://openkruise.io/docs/core-concepts/architecture
 
 ## Возможности решения.
 * In place update. Позволяет обновлять имиджи и энвайронмент контейнера, не пересоздавая под.
