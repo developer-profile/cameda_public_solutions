@@ -1,0 +1,74 @@
+# Разрешен входящий трафик на поды с меткой cam: nginx от подов меткой cam: nginx3
+
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: simple-ingress-netpol
+  namespace: default
+  labels:
+    netpol: test
+spec:
+  policyTypes:
+  - Ingress
+  podSelector:
+    matchLabels:
+      cam: nginx
+  ingress:
+  - from:
+    - podSelector:
+        matchLabels:
+          cam: nginx3
+---
+# Разрешен входящий трафик на поды с меткой name: internal от подов с меткой name: mysql или name: payroll по порту 3306 и порту 8080.
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: internal-netpol-or
+  namespace: default
+  labels:
+    netpol: test
+spec:
+  policyTypes:
+  - Ingress
+  podSelector:
+    matchLabels:
+      name: internal
+  egress:
+  - to:
+     - podSelector:
+          matchLabels:
+            name: mysql
+     - podSelector:
+          matchLabels:
+            name: payroll
+    ports:
+    - protocol: TCP
+      port: 3306
+    - protocol: TCP
+      port: 8080
+---
+# Разрешен входящий трафик на поды с меткой name: internal от подов с меткой name: mysql и из namespace с меткой ns: db по порту 3306.
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: internal-netpol-and
+  namespace: default
+  labels:
+    netpol: test
+spec:
+  policyTypes:
+  - Ingress
+  podSelector:
+    matchLabels:
+      name: internal
+  egress:
+  - to:
+     - podSelector:
+          matchLabels:
+            name: mysql
+       namespaceSelector:
+          matchLabels:
+            ns: db
+    ports:
+    - protocol: TCP
+      port: 3306
