@@ -40,3 +40,8 @@ https://habr.com/ru/companies/flant/articles/427283/
 Сравниваем работу k8s с океанариума. На примере сущностей кубера и рыбок.
 
 https://habr.com/ru/companies/flant/articles/544306/
+
+## Работа с flowcontrol.
+Использование flowcontrol может сильно уменьшить запросы к API.
+https://habr.com/ru/companies/flant/articles/735718/
+
