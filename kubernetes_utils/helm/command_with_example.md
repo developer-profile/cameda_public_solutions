@@ -50,4 +50,5 @@ helm template .
 helm lint .
 ```
 
-
+### Регаемся в реджистри.
+helm registry login cr.yandex -u iam

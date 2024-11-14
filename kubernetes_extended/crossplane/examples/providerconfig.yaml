@@ -1,0 +1,20 @@
+# YC Cloud Provider
+
+apiVersion: yandex-cloud.jet.crossplane.io/v1alpha1
+kind: ProviderConfig
+metadata:
+  name: provider-config
+  annotations:
+    upjet.upbound.io/manual-intervention: "Cameda test"
+spec:
+  credentials:
+    cloudId: b1gig0ogqtnk75jde2q8
+    folderId: b1gic42dj0fa51gs569g
+    source: Secret
+    secretRef:
+      name: provider-creds
+      namespace: crossplane
+      key: credentials
+---
+
+kubectl create secret generic provider-creds -n crossplane --from-file=/Users/cameda/practicum/key.json
