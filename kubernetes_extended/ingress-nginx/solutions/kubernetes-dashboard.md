@@ -18,6 +18,8 @@ helm upgrade --install ingress-nginx ingress-nginx \
 --set controller.ingressClass="nginx"
 ```
 
+Установка дашборда описана тут: https://github.com/Cameda/public_solutions/blob/main/kubernetes_extended/kubernetes-dashboard/kubernetes-dashboard.md
+
 ## Рабочий пример.
 
 ### Выпускаем сертификат.

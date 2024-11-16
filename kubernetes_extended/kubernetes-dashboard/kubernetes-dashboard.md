@@ -19,59 +19,59 @@ http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kube
 ```
 
 ### Ingress.
-```
-cat <<EOF | kubectl apply -f -
-apiVersion: cert-manager.io/v1
-kind: ClusterIssuer
-metadata:
-  name: letsencrypt
-  namespace: cert-manager
-spec:
-  acme:
-    server: https://acme-v02.api.letsencrypt.org/directory
-    email: cameda4@yandex.ru
-    privateKeySecretRef:
-      name: kubernetes-dashboard
-    solvers:
-    - http01:
-        ingress:
-          class: nginx
-EOF
-```
+Создание правила ingress для kubernetes dashboard описано тут: https://github.com/Cameda/public_solutions/blob/main/kubernetes_extended/ingress-nginx/solutions/kubernetes-dashboard.md
 
+## Подключение.
+
+### Для подключения нужен сервисный аккаунт.
 ```
 cat <<EOF | kubectl apply -f -
-apiVersion: networking.k8s.io/v1
-kind: Ingress
+apiVersion: v1
+kind: ServiceAccount
 metadata:
-  name: kubernetes-dashboard
+  name: admin-user
   namespace: kubernetes-dashboard
-  annotations:
-    cert-manager.io/cluster-issuer: "letsencrypt"
-    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
-    nginx.ingress.kubernetes.io/auth-tls-verify-client: "false"
-spec:
-  ingressClassName: nginx
-  tls:
-    - hosts:
-      - dashboard.cameda1.ru
-      secretName: kubernetes-dashboard
-  rules:
-    - host: dashboard.cameda1.ru
-      http:
-        paths:
-        - path: /
-          pathType: Prefix
-          backend:
-            service:
-              name: kubernetes-dashboard
-              port:
-                number: 443
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: admin-user
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-admin
+subjects:
+- kind: ServiceAccount
+  name: admin-user
+  namespace: kubernetes-dashboard
 EOF
 ```
 
-## Полезные вещи.
+### Генерируем токен.
+```
+kubectl create token admin-user -n kubernetes-dashboard
+```
 
+## Вид главного окна.
+<h1 align="center">
+    <img src="./img/1.png" alt="kubernetes-dashboard">
+</h1>
+
+<h1 align="center">
+    <img src="./img/2.png" alt="kubernetes-dashboard">
+</h1>
+
+<h1 align="center">
+    <img src="./img/3.png" alt="kubernetes-dashboard">
+</h1>
+
+<h1 align="center">
+    <img src="./img/4.png" alt="kubernetes-dashboard">
+</h1>
+
+<h1 align="center">
+    <img src="./img/5.png" alt="kubernetes-dashboard">
+</h1>
 
 ## Полезные ссылки.
 https://kubernetes.io/docs/tasks/access-application-cluster/web-ui-dashboard/
