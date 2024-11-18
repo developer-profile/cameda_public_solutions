@@ -31,6 +31,7 @@ alpine       worker    664d6e5e6c1a   About a minute ago   5.55MB
 ```
 
 ## Если надо удалить что-то из архива, то можно его распаковать, удалить что-то и упаковать заново. Или можно запустить команду RUN для удаления из образа лишнего.
+```
 FROM scratch
 ADD alpine-no-ps-minirootfs.tar.gz /
 RUN adduser -D -g '' worker
