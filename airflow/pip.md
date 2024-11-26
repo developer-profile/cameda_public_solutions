@@ -1,5 +1,5 @@
 # Список полезных pip пакетов
-
+```
 thrift==0.21.0
 pyiceberg[s3fs,hive]
 awscli==1.33.18
@@ -14,3 +14,4 @@ apache-airflow-providers-apache-kafka
 apache-airflow-providers-oracle[common.sql]
 datasphere
 airflow-providers-clickhouse
+```

@@ -38,7 +38,7 @@ priorityClass:
 В соответствующих местах сущностей Deployment, PriorityClass проставляем переменные в стиле {{.Values.xxxx.xxxx}}, например, imagePullPolicy в Deployment будет определяться так:
 imagePullPolicy: {{.Values.deployment.imagePullPolicy}}
 
-### Проверим чарт.
+### Проверим чарт и упакуем его в архив.
 
 * Выполняем из той же директории где лежит файл Chart.yaml. Команда покажет все сущности с уже подставленными значениями.
 ```
@@ -50,5 +50,20 @@ helm template .
 helm lint .
 ```
 
-### Регаемся в реджистри.
+* Упакуем чарт в архив.
+```
+helm package <chart_name> <directory> --version <chart_version>
+helm package curl_alpine curl_alpine --version 1.0.0
+```
+
+### Регаемся в реджистри и запушим чарт в него.
+```
+yc iam create-token
 helm registry login cr.yandex -u iam
+
+helm push <имя_Helm-чарта>-<версия>.tgz oci://cr.yandex/<идентификатор реестра>
+helm push curl-alpine-1.0.0.tgz oci://cr.yandex/crp59ldu2qv9q43uq5jh
+```
+
+### Пуллим чарт, и устанавливаем его.
+helm pull oci://crp59ldu2qv9q43uq5jh/curl-alpine --untar

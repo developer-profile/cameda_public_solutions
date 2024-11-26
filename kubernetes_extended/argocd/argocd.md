@@ -13,3 +13,8 @@ helm install -n argocd \
   --create-namespace \
   argocd argo-cd 
 ```
+
+### Посмотреть пароль для дашборда.
+```
+kubectl -n argocd get secret argocd-initial-admin-secret --output jsonpath="{.data.password}" | base64 -d
+```

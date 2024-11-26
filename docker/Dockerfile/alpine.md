@@ -10,7 +10,6 @@
 FROM scratch
 ADD alpine-minirootfs-3.16.2-x86_64.tar.gz /
 RUN adduser -D -g '' worker
-RUN adduser -D -g '' auditor
 CMD ["/bin/sh"]
 USER worker
 ```
@@ -35,7 +34,6 @@ alpine       worker    664d6e5e6c1a   About a minute ago   5.55MB
 FROM scratch
 ADD alpine-no-ps-minirootfs.tar.gz /
 RUN adduser -D -g '' worker
-RUN adduser -D -g '' auditor
 CMD ["/bin/sh"]
 RUN rm -rf /bin/ls
 USER worker
