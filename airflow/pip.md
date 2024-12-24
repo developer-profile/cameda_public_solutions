@@ -9,9 +9,15 @@ yandexcloud==0.298.0
 beautifulsoup4==4.12.3
 openpyxl==3.1.5
 pillow==10.4.0
+boto3
+pandas
+clickhouse-connect
 
 apache-airflow-providers-apache-kafka
 apache-airflow-providers-oracle[common.sql]
 datasphere
 airflow-providers-clickhouse
+apache-airflow-providers-postgres
+apache-airflow-providers-smtp
+apache-airflow-providers-airbyte
 ```
