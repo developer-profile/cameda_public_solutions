@@ -39,3 +39,7 @@ https://lyalyuev.info/2022/09/19/k8s-ns-terminating/
 2. Использование OpenVPN внутри кластера для доступа к его внутренним ресурсам с помощью VPN.
 
 https://habr.com/ru/companies/flant/articles/427745/
+
+------------------------------------------------------------------------------------------------
+## Архитектура kubelet.
+https://www.sobyte.net/post/2022-03/kubelet-pod-creation-workflow/
