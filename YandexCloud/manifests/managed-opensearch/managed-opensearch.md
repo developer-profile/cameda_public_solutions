@@ -11,6 +11,8 @@ export SG=$(yc vpc sg get cam-db --folder-name cameda-practicum --format=json | 
 export ENV=prestable #production
 export VERSION=2.17
 ```
+
+### Создание кластера.
 ```
 yc managed-opensearch cluster create \
    --folder-id $FOLDER \

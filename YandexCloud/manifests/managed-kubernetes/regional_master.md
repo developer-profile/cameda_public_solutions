@@ -14,7 +14,7 @@ export VERSION=1.30
 export CHANNEL=rapid # regular, stable
 ```
 
-## Создаём мастер.
+### Создаём мастер.
 ```
 yc k8s cluster create \
 --folder-id $FOLDER \
@@ -43,7 +43,7 @@ yc k8s cluster create \
 --async
 ```
 
-## Создаём фиксированную нод группу.
+### Создаём фиксированную нод группу.
 ```
 yc k8s node-group create \
 --folder-id $FOLDER \
@@ -75,7 +75,7 @@ yc k8s node-group create \
 --async
 ```
 
-## Создание масштабируемой нод группы для кластера.
+### Создание масштабируемой нод группы для кластера.
 ```
 yc k8s node-group create \
 --folder-id $FOLDER \
@@ -107,12 +107,12 @@ yc k8s node-group create \
 --async
 ```
 
-## Содержимое файла ssh-pairs.txt
+### Содержимое файла ssh-pairs.txt
 ```
 cameda:ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDI98mJDBN9cnp6HOdBYTQILeAhUSDvDfoqA9iLmVPDyPLFRWs7tE4BjCAcFD6a3M50QIboCaohfa7h+PWksYibab7I3QHOR7y9pCW8FGonGRw2ACvt906qlaWHFj7jWOxuihFoiRROKqLCW5YE/Yc4XFIvW1gu3JQdvQ1wemWvujsI8EHE6PI1pEg7/41y6kn3IhNHIr8WRLe4dPyPGjwc4LpBCcaRSJiX4YjVXynSIHNk365UrL+nGv8ix7bW5FNCgGqSgfUTVCfMYLzQ/gYHPVQrcIvCeHjkwluH8Z3gXeN3OliejBjpLi+IWIzd9K6UADSUNU8oL+9941tDidp8APoe7RbB4h3bY6k8Bhy0yxohgQS2OWSYd1mjeEx8Ba5wzJKqfpUgmcPdrBJnBwLgLMFQyEfYG6vTPkYWAKEvkkJ6ZiA4tdoQvCb+B0xJV/ivHyLtoi3LFE59mbQFDUy8O51vX9JjBDLwzyTEeslWp7uOP66Ti5Q5ucNXbs5yXTU= cameda@cameda-osx
 ```
 
-## Подключение к кластеру.
+### Подключение к кластеру.
 ```
 yc managed-kubernetes cluster get-credentials --id <cluster_id> --external
 ```
