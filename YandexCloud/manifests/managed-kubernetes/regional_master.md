@@ -1,4 +1,4 @@
-# Создаём кластер Kubernetes с региональным мастером
+# Установка кластера Kubernetes с региональным мастером
 
 ## Поехали!
 ```
@@ -10,11 +10,11 @@ export SUBNET=$(yc vpc subnet get subnet-d --folder-name cameda-practicum --form
 export SG=$(yc vpc sg get k8s-sg --folder-name cameda-practicum --format=json | jq -r '.id')
 export KMS=$(yc kms symmetric-key get k8s-key --folder-name cameda-practicum --format json | jq -r ".id")
 export LOG=$(yc log group get k8s --folder-name cameda-practicum --format json | jq -r ".id")
-export Version=1.30
-export Channel=rapid # regular, stable
+export VERSION=1.30
+export CHANNEL=rapid # regular, stable
 ```
 
-### Создаём мастер.
+## Создаём мастер.
 ```
 yc k8s cluster create \
 --folder-id $FOLDER \
@@ -27,8 +27,8 @@ yc k8s cluster create \
 --master-location subnet-name=subnet-b,zone=ru-central1-b \
 --master-location subnet-name=subnet-d,zone=ru-central1-d \
 --public-ip \
---release-channel $Channel \
---version $Version  \
+--release-channel $CHANNEL \
+--version $VERSION  \
 --cluster-ipv4-range 10.90.0.0/16 \
 --service-ipv4-range 10.91.0.0/16 \
 --auto-upgrade=true \
@@ -43,7 +43,7 @@ yc k8s cluster create \
 --async
 ```
 
-### Создаём фиксированную нод группу.
+## Создаём фиксированную нод группу.
 ```
 yc k8s node-group create \
 --folder-id $FOLDER \
@@ -63,7 +63,7 @@ yc k8s node-group create \
 --disk-size 96 \
 --network-acceleration-type standard \
 --network-interface security-group-ids=$SG,subnets=$SUBNET,ipv4-address=nat \
---version $Version \
+--version $VERSION \
 --container-runtime containerd \
 --fixed-size 2 \
 --auto-upgrade=true \
@@ -75,7 +75,7 @@ yc k8s node-group create \
 --async
 ```
 
-### Создание масштабируемой нод группы для кластера.
+## Создание масштабируемой нод группы для кластера.
 ```
 yc k8s node-group create \
 --folder-id $FOLDER \
@@ -95,7 +95,7 @@ yc k8s node-group create \
 --disk-size 96 \
 --network-acceleration-type standard \
 --network-interface security-group-ids=$SG,subnets=$SUBNET,ipv4-address=nat \
---version $Version \
+--version $VERSION \
 --container-runtime containerd \
 --auto-scale min=1,max=5,initial=1 \
 --auto-upgrade=false \
@@ -107,12 +107,12 @@ yc k8s node-group create \
 --async
 ```
 
-#### Содержимое файла ssh-pairs.txt
+## Содержимое файла ssh-pairs.txt
 ```
 cameda:ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDI98mJDBN9cnp6HOdBYTQILeAhUSDvDfoqA9iLmVPDyPLFRWs7tE4BjCAcFD6a3M50QIboCaohfa7h+PWksYibab7I3QHOR7y9pCW8FGonGRw2ACvt906qlaWHFj7jWOxuihFoiRROKqLCW5YE/Yc4XFIvW1gu3JQdvQ1wemWvujsI8EHE6PI1pEg7/41y6kn3IhNHIr8WRLe4dPyPGjwc4LpBCcaRSJiX4YjVXynSIHNk365UrL+nGv8ix7bW5FNCgGqSgfUTVCfMYLzQ/gYHPVQrcIvCeHjkwluH8Z3gXeN3OliejBjpLi+IWIzd9K6UADSUNU8oL+9941tDidp8APoe7RbB4h3bY6k8Bhy0yxohgQS2OWSYd1mjeEx8Ba5wzJKqfpUgmcPdrBJnBwLgLMFQyEfYG6vTPkYWAKEvkkJ6ZiA4tdoQvCb+B0xJV/ivHyLtoi3LFE59mbQFDUy8O51vX9JjBDLwzyTEeslWp7uOP66Ti5Q5ucNXbs5yXTU= cameda@cameda-osx
 ```
 
-### Подключение к кластеру.
+## Подключение к кластеру.
 ```
 yc managed-kubernetes cluster get-credentials --id <cluster_id> --external
 ```
