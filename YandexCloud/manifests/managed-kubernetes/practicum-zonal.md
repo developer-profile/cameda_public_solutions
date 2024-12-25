@@ -14,7 +14,7 @@ export VERSION=1.30
 export CHANNEL=rapid # regular, stable
 ```
 
-### Create cluster with zonal master, cilium and logs. Version 1.28.
+### Create cluster with zonal master, cilium and logs.
 ```
 yc k8s cluster create \
 --folder-id $FOLDER \

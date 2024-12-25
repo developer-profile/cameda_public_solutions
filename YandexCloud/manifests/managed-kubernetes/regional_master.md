@@ -14,7 +14,7 @@ export VERSION=1.30
 export CHANNEL=rapid # regular, stable
 ```
 
-### Создаём мастер.
+### Create cluster with zonal master, cilium and logs.
 ```
 yc k8s cluster create \
 --folder-id $FOLDER \
@@ -43,7 +43,7 @@ yc k8s cluster create \
 --async
 ```
 
-### Создаём фиксированную нод группу.
+### Create 2 worker node. Fixed node group.
 ```
 yc k8s node-group create \
 --folder-id $FOLDER \
@@ -75,7 +75,7 @@ yc k8s node-group create \
 --async
 ```
 
-### Создание масштабируемой нод группы для кластера.
+### Create 2 worker node. Autoscale node group.
 ```
 yc k8s node-group create \
 --folder-id $FOLDER \
