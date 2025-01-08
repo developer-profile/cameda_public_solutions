@@ -13,6 +13,13 @@ boto3
 pandas
 clickhouse-connect
 
+sqlalchemy
+sshtunnel
+datetime
+gspread
+gspread_dataframe
+oauth2client
+
 apache-airflow-providers-apache-kafka
 apache-airflow-providers-oracle[common.sql]
 datasphere
