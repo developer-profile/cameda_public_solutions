@@ -1,4 +1,4 @@
-# Filebeat OSS
+# Установка Filebeat OSS в Managed Kubernetes
 
 ## Описание.
 Агент выгрузки логов в Opensearch.

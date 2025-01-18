@@ -1,4 +1,4 @@
-# Kyverno
+# Установка Kyverno в Managed Kubernetes
 
 ## Описание.
 Установка Kyverno в Yandex Cloud.
