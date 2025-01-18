@@ -6,7 +6,7 @@ export KMS=$(yc kms symmetric-key get k8s-key --folder-name cameda-practicum --f
 ```
 ```
 helm pull oci://cr.yandex/yc-marketplace/yandex-cloud/vault/chart/vault \
-  --version 0.28.1+yckms \
+  --version 0.29.0+yckms \
   --untar && \
 helm install \
   --namespace vault \
