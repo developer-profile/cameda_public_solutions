@@ -1,4 +1,4 @@
-# Установка кластера Kubernetes с региональным мастером
+# Установка кластера Kubernetes с зональным мастером
 
 ## Поехали!
 ```
@@ -10,7 +10,7 @@ export SUBNET=$(yc vpc subnet get subnet-d --folder-name cameda-practicum --form
 export SG=$(yc vpc sg get k8s-sg --folder-name cameda-practicum --format=json | jq -r '.id')
 export KMS=$(yc kms symmetric-key get k8s-key --folder-name cameda-practicum --format json | jq -r ".id")
 export LOG=$(yc log group get k8s --folder-name cameda-practicum --format json | jq -r ".id")
-export VERSION=1.30
+export VERSION=1.31
 export CHANNEL=rapid # regular, stable
 ```
 
@@ -18,19 +18,17 @@ export CHANNEL=rapid # regular, stable
 ```
 yc k8s cluster create \
 --folder-id $FOLDER \
---name cam-kuber-regional-test \
---description "regional k8s test cluster" \
---labels test=regionaal \
+--name cam-main \
+--description "Main cluster" \
+--labels cam=main \
 --network-id $NETWORK \
---regional \
---master-location subnet-name=subnet-a,zone=ru-central1-a \
---master-location subnet-name=subnet-b,zone=ru-central1-b \
---master-location subnet-name=subnet-d,zone=ru-central1-d \
+--zone $ZONE \
+--subnet-id $SUBNET \
 --public-ip \
 --release-channel $CHANNEL \
---version $VERSION  \
---cluster-ipv4-range 10.90.0.0/16 \
---service-ipv4-range 10.91.0.0/16 \
+--version $VERSION \
+--cluster-ipv4-range 10.1.0.0/16 \
+--service-ipv4-range 10.2.0.0/16 \
 --auto-upgrade=true \
 --security-group-ids $SG \
 --enable-network-policy \
@@ -39,7 +37,7 @@ yc k8s cluster create \
 --service-account-id $SA \
 --kms-key-id $KMS \
 --daily-maintenance-window 'start=22:00,duration=2h' \
---master-logging enabled=true,log-group-id=$LogGroupID,cluster-autoscaler-enabled=true,kube-apiserver-enabled=true,audit-enabled=true,events-enabled=true \
+--master-logging enabled=true,log-group-id=$LOG,cluster-autoscaler-enabled=true,kube-apiserver-enabled=true,audit-enabled=true,events-enabled=true \
 --async
 ```
 
@@ -47,17 +45,17 @@ yc k8s cluster create \
 ```
 yc k8s node-group create \
 --folder-id $FOLDER \
---name cam-fixed-group \
---cluster-name cam-kuber-regional-test \
---description "fixed-testgroup" \
+--name cam-fixed-main \
+--cluster-name cam-main \
+--description "fixed group for main cluster" \
 --metadata serial-port-enable=1 \
 --metadata-from-file=ssh-keys=/Users/cameda/ssh-pairs.txt \
---labels cam=regional \
---node-labels env=deploy \
+--labels cam=main \
+--node-labels cam=main \
 --location zone=$ZONE \
 --platform standard-v3 \
---memory 16 \
---cores 8 \
+--memory 8 \
+--cores 4 \
 --core-fraction 100 \
 --disk-type network-ssd \
 --disk-size 96 \
@@ -79,13 +77,13 @@ yc k8s node-group create \
 ```
 yc k8s node-group create \
 --folder-id $FOLDER \
---name cam-autoscale-group \
---cluster-name cam-kuber-regional-test \
---description "autoscale-testgroup" \
+--name cam-autoscale-main \
+--cluster-name cam-main \
+--description "autoscale group for main cluster" \
 --metadata serial-port-enable=1 \
 --metadata-from-file=ssh-keys=/Users/cameda/ssh-pairs.txt \
---labels cam=autoscale \
---node-labels env=test \
+--labels cam=main \
+--node-labels cam=main \
 --location zone=$ZONE \
 --platform standard-v3 \
 --memory 4 \
