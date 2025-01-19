@@ -17,3 +17,16 @@ yc logging group create \
 ```
 export LOG=$(yc log group get k8s --folder-name cameda-practicum --format json | jq -r ".id")
 ```
+
+## Create Cloud Logging group for FluentBit log from mk8s.
+```
+yc logging group create \
+  --folder-id $FOLDER \
+  --name k8s-fluentbit \
+  --description "mk8s+fluentbit logs" \
+  --retention-period=10h \
+  --async
+```
+```
+export LOG-FLUENT=$(yc log group get k8s-fluentbit --folder-name cameda-practicum --format json | jq -r ".id")
+```
