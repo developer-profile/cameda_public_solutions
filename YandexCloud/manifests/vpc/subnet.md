@@ -8,6 +8,7 @@
 ```
 export FOLDER=$(yc resource folder get cameda-practicum --format=json | jq -r ".id")
 export NETWORK=$(yc vpc network get cameda-practicum --folder-name cameda-practicum --format json | jq -r '.id')
+export RT=$(yc vpc route-table get cam-route-table-k8s --folder-name cameda-practicum --format json | jq -r '.id')
 ```
 
 ## Создаём четыре подсети в каждой зоне доступности.
@@ -23,10 +24,11 @@ yc vpc subnet create \
 
 yc vpc subnet create \
   --folder-id $FOLDER \
-  --name subnet-c \
-  --description "Subnet zone c" \
+  --name subnet-d-for-gateway \
+  --description "Subnet zone d for gateway" \
+  --route-table-id=$RT \
   --network-id $NETWORK \
-  --zone ru-central1-c \
+  --zone ru-central1-d \
   --range 10.142.0.0/24 \
   --async
 
@@ -52,6 +54,7 @@ yc vpc subnet create \
 ## bash
 ```
 export SUBNET=$(yc vpc subnet get subnet-d --folder-name cameda-practicum --format json | jq -r '.id')
+export SUBNET_GATEWAY=$(yc vpc subnet get subnet-d-for-gateway --folder-name cameda-practicum --format json | jq -r '.id')
 ```
 
 ## Создаём subnet с параметрами dhcp.
