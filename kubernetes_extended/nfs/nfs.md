@@ -71,7 +71,7 @@ spec:
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 80
-        command: ["mkdir -p /tmp/nfs"]
+        command: ["mkdir -p /tmp/nfs && sleep inherit"]
         resources:
           requests:
             cpu: 200m
