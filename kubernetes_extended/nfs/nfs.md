@@ -71,11 +71,12 @@ spec:
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 80
-        command: ["mkdir -p /tmp/nfs && sleep inherit"]
+        command: ["/bin/bash"]
+        args: ["mkdir /tmp/nfs && sleep inherit"]
         resources:
           requests:
-            cpu: 200m
-            memory: 150Mi
+            cpu: 100m
+            memory: 70Mi
         volumeMounts:
         - name: my-nfs-share
           mountPath: /tmp/nfs
