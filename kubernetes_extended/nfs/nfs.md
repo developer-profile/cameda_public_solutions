@@ -72,14 +72,14 @@ spec:
         ports:
         - containerPort: 80
         command: ["/bin/bash"]
-        args: ["mkdir /tmp/nfs && sleep inherit"]
+        args: ["mkdir /tmp/data && sleep 24h"]
         resources:
           requests:
             cpu: 100m
             memory: 70Mi
         volumeMounts:
         - name: my-nfs-share
-          mountPath: /tmp/nfs
+          mountPath: /tmp/data
       restartPolicy: Always
       hostname: nginx-nfs
       nodeSelector:
