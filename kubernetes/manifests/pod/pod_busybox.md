@@ -1,4 +1,6 @@
-# Pod with busybox.
+# Pod with busybox
+```
+cat <<EOF | kubectl apply -f -
 apiVersion: v1
 kind: Pod
 metadata:
@@ -11,17 +13,18 @@ metadata:
 spec:
   containers:
   - name: busybox
-    image: busybox
+    image: busybox:alpine
     imagePullPolicy: IfNotPresent
     resources:
       requests:
-        cpu: "100m"
+        cpu: "20m"
         memory: "120Mi"
       limits:
-        memory: "200Mi"
+        memory: "50Mi"
     command: ["sh", "-c"]
-    args: ["sleep 24h"]
+    args: ["sleep inherit"]
   restartPolicy: OnFailure
   hostname: busybox
   nodeSelector:
     kubernetes.io/os: linux
+EOF

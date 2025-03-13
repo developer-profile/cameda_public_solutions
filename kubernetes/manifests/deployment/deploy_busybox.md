@@ -1,19 +1,21 @@
-# Deployment with Nginx.
+# Deployment with busybox
+```
+cat <<EOF | kubectl apply -f -
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: cam-deploy-nginx
+  name: cam-deploy-busybox
   namespace: default
   labels:
-    app: deploy-nginx
+    app: deploy-busybox
     environment: test
   annotations:
     author: cameda
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
-      app: cam-deploy-nginx
+      app: cam-deploy-busybox
   strategy:
     rollingUpdate:
       maxSurge: 1
@@ -22,21 +24,23 @@ spec:
   template:
     metadata:
       labels:
-        app: cam-deploy-nginx
+        app: cam-deploy-busybox
     spec:
       containers:
-      - name: cam-deploy-nginx
-        image: nginx:alpine
+      - name: cam-deploy-busybox
+        image: busybox:alpine
         imagePullPolicy: IfNotPresent
-        ports:
-        - containerPort: 80
+        command: ["sh", "-c"]
+        args: ["sleep 24h"]
         resources:
           requests:
-            cpu: 50m
-            memory: 50Mi
+            cpu: 20m
+            memory: 20Mi
           limits:
-            memory: 100Mi
-      restartPolicy: Always
-      hostname: nginx
+            memory: 50Mi
+      restartPolicy: OnFailure
+      hostname: busybox
       nodeSelector:
         kubernetes.io/os: linux
+EOF
+```
