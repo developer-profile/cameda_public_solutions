@@ -23,10 +23,10 @@ spec:
   persistentVolumeReclaimPolicy: Retain
   nfs:
     path: /mnt/data
-    server: 10.142.0.13
+    server: 158.160.159.135
 EOF
 ```
-где 10.142.0.13 - внутренний адрес NFS сервера.
+где 158.160.159.135 - внешний адрес NFS сервера.
 
 ```
 cat <<EOF | kubectl apply -f -
@@ -48,10 +48,11 @@ EOF
 
 ### Создаём Deployment и подключаем PVC.
 ```
+cat <<EOF | kubectl apply -f -
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: cam-nginx-nfs
+  name: cam-busybox-nfs
   namespace: default
   labels:
     env: test
@@ -59,33 +60,32 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app: cam-nginx-nfs
+      app: nfs
   template:
     metadata:
       labels:
-        app: cam-nginx-nfs
+        app: nfs
     spec:
       containers:
-      - name: nginx-nfs-test
-        image: nginx:1.24
+      - name: nfs-test
+        image: busybox
         imagePullPolicy: IfNotPresent
-        ports:
-        - containerPort: 80
-        command: ["/bin/bash"]
-        args: ["mkdir /tmp/data && sleep 24h"]
+        command: ["sh", "-c"]
+        args: ["sleep 24h"]
         resources:
           requests:
             cpu: 100m
             memory: 70Mi
         volumeMounts:
         - name: my-nfs-share
-          mountPath: /tmp/data
+          mountPath: /tmp
       restartPolicy: Always
-      hostname: nginx-nfs
+      hostname: nfs
       nodeSelector:
         kubernetes.io/os: linux
       volumes:
       - name: my-nfs-share
         persistentVolumeClaim:
           claimName: cam-nfs-pvc
+EOF
 ```
