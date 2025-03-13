@@ -4,7 +4,7 @@
 Подключим хранилище на базе NFS к поду.
 
 ## Подготовка.
-Создадим NFS сервер по мануалу: https://github.com/Cameda/public_solutions/blob/main/YandexCloud/manifests/compute/vm/04.nfs_server.md
+Создадим NFS сервер по мануалу: https://github.com/Cameda/public_solutions/blob/main/YandexCloud/manifests/compute/vm/04.nfs_server_with_fip.md
 
 ## Поехали!
 

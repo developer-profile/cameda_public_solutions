@@ -1,4 +1,6 @@
-# Pod for check dns.
+# Pod for check dns
+```
+cat <<EOF | kubectl apply -f -
 apiVersion: v1
 kind: Pod
 metadata:
@@ -15,13 +17,15 @@ spec:
     imagePullPolicy: IfNotPresent
     resources:
       requests:
-        cpu: "100m"
-        memory: "150Mi"
+        cpu: "20m"
+        memory: "20Mi"
       limits:
-        memory: "200Mi"
+        memory: "50Mi"
     command: ["/bin/sh"]
     args: ["-c", "sleep 1d"]
   restartPolicy: Never
   hostname: check-dns
   nodeSelector:
     kubernetes.io/os: linux
+EOF
+```

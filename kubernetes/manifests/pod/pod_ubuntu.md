@@ -1,4 +1,6 @@
-# Pod with Ubuntu.
+# Pod with Ubuntu
+```
+cat <<EOF | kubectl apply -f -
 apiVersion: v1
 kind: Pod
 metadata:
@@ -10,7 +12,7 @@ metadata:
     author: cameda
 spec:
   containers:
-  - name: cam-container-ubuntu
+  - name: ubuntu
     image: ubuntu
     imagePullPolicy: IfNotPresent
     resources:
@@ -20,8 +22,10 @@ spec:
       limits:
         memory: "2G"
     command: ["sh", "-c"]
-    args: ["sleep 24h"]
+    args: ["sleep inherit"]
   restartPolicy: OnFailure
-  hostname: cam-ubuntu
+  hostname: ubuntu
   nodeSelector:
     kubernetes.io/os: linux
+EOF
+```

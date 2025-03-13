@@ -1,4 +1,4 @@
-# Pod with busybox
+# Pod with busybox alpine
 ```
 cat <<EOF | kubectl apply -f -
 apiVersion: v1
