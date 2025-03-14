@@ -22,7 +22,7 @@ spec:
       limits:
         memory: "2G"
     command: ["sh", "-c"]
-    args: ["sleep inherit"]
+    args: ["sleep 3650d"]
   restartPolicy: OnFailure
   hostname: ubuntu
   nodeSelector:
