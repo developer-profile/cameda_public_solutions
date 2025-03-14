@@ -14,16 +14,16 @@ metadata:
 spec:
   containers:
   - name: busybox
-    image: busybox:alpine
+    image: busybox
     imagePullPolicy: IfNotPresent
     resources:
       requests:
-        cpu: "20m"
-        memory: "20Mi"
+        cpu: "100m"
+        memory: "100Mi"
       limits:
-        memory: "50Mi"
+        memory: "120Mi"
     command: ["sh", "-c"]
-    args: ["sleep inherit"]
+    args: ["sleep 3650d"]
     volumeMounts:
     - mountPath: "/User/worker/data"
       name: my-csi
