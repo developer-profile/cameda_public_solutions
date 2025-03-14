@@ -18,7 +18,7 @@ spec:
     resources:
       requests:
         cpu: "20m"
-        memory: "120Mi"
+        memory: "20Mi"
       limits:
         memory: "50Mi"
     command: ["sh", "-c"]
