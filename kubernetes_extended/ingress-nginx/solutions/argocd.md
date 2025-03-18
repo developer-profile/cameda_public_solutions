@@ -28,12 +28,12 @@ cat <<EOF | kubectl apply -f -
 apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
 metadata:
-  name: letsencrypt
+  name: letsencrypt-prod
   namespace: cert-manager
 spec:
   acme:
     server: https://acme-v02.api.letsencrypt.org/directory
-    email: cameda4@yandex.ru
+    email: cameda@yandex.ru
     privateKeySecretRef:
       name: argocd
     solvers:
@@ -45,11 +45,11 @@ apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
   name: cert-main
-  namespace: default
+  namespace: argocd
 spec:
-  secretName: tls-secret
+  secretName: argocd-tls-secret
   issuerRef:
-    name: ya-issuer
+    name: letsencrypt-prod
     kind: ClusterIssuer
   commonName: argocd.cameda1.ru
   dnsNames:
@@ -70,6 +70,7 @@ metadata:
     env: test
   annotations:
     author: cameda
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
     ingress.kubernetes.io/secure-backends: "true"
     nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
     nginx.ingress.kubernetes.io/use-proxy-protocol: "true"
@@ -78,7 +79,7 @@ spec:
   tls:
     - hosts:
       - argocd.cameda1.ru
-      secretName: tls-secret
+      secretName: argocd-tls-secret
   ingressClassName: nginx
   rules:
     - host: argocd.cameda1.ru
