@@ -14,7 +14,7 @@ metadata:
     author: cameda
 spec:
   containers:
-  - name: nginx
+  - name: nginx-besteffort
     image: nginx:alpine
     imagePullPolicy: IfNotPresent
     ports:
@@ -32,7 +32,7 @@ cat <<EOF | kubectl apply -f -
 apiVersion: v1
 kind: Pod
 metadata:
-  name: cam-pod-nginx-besteffort
+  name: cam-pod-nginx-burstable
   namespace: default
   labels:
     cam: nginx
@@ -40,7 +40,7 @@ metadata:
     author: cameda
 spec:
   containers:
-  - name: nginx
+  - name: nginx-burstable
     image: nginx:alpine
     imagePullPolicy: IfNotPresent
     resources:
@@ -64,7 +64,7 @@ cat <<EOF | kubectl apply -f -
 apiVersion: v1
 kind: Pod
 metadata:
-  name: cam-pod-nginx-besteffort
+  name: cam-pod-nginx-guaranteed
   namespace: default
   labels:
     cam: nginx
@@ -72,7 +72,7 @@ metadata:
     author: cameda
 spec:
   containers:
-  - name: nginx
+  - name: nginx-guaranteed
     image: nginx:alpine
     imagePullPolicy: IfNotPresent
     resources:
