@@ -57,6 +57,19 @@ spec:
   - dashboard.cameda1.ru
 EOF
 ```
+
+#### Получилось так.
+```
+kubectl get clusterissuer
+NAME               READY   AGE
+letsencrypt-prod   True    3m9s
+
+
+kubectl get cert -A
+NAMESPACE              NAME                   READY   SECRET                 AGE
+kubernetes-dashboard   kubernetes-dashboard   True    dashboard-tls-secret   108s
+```
+
 ### Создаём ingress правило.
 ```
 cat <<EOF | kubectl apply -f -
