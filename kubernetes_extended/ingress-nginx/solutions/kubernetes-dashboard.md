@@ -22,14 +22,14 @@ helm upgrade --install ingress-nginx ingress-nginx \
 
 ## Рабочий пример.
 
-### Выпускаем сертификат.
+### Делаем запрос на сертификат.
 ```
 cat <<EOF | kubectl apply -f -
 apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
 metadata:
-  name: letsencrypt
-  namespace: cert-manager
+  name: letsencrypt-prod
+  namespace: default
 spec:
   acme:
     server: https://acme-v02.api.letsencrypt.org/directory
@@ -40,6 +40,20 @@ spec:
     - http01:
         ingress:
           class: nginx
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: cat-cameda1
+  namespace: default
+spec:
+  secretName: dashboard-tls-secret
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+  commonName: dashboard.cameda1.ru
+  dnsNames:
+  - dashboard.cameda1.ru
 EOF
 ```
 ### Создаём ingress правило.
@@ -51,7 +65,7 @@ metadata:
   name: kubernetes-dashboard
   namespace: kubernetes-dashboard
   annotations:
-    cert-manager.io/cluster-issuer: "letsencrypt"
+    cert-manager.io/cluster-issuer: "letsencryp-prod"
     nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
     nginx.ingress.kubernetes.io/auth-tls-verify-client: "false"
 spec:
@@ -59,7 +73,7 @@ spec:
   tls:
     - hosts:
       - dashboard.cameda1.ru
-      secretName: kubernetes-dashboard
+      secretName: dashboard-tls-secret
   rules:
     - host: dashboard.cameda1.ru
       http:
