@@ -18,7 +18,8 @@ helm upgrade --install ingress-nginx ingress-nginx \
 --set controller.ingressClass="nginx"
 ```
 
-Установка дашборда описана тут: https://github.com/Cameda/public_solutions/blob/main/kubernetes_extended/kubernetes-dashboard/kubernetes-dashboard.md
+Установка дашборда описана тут: 
+https://github.com/Cameda/public_solutions/blob/main/kubernetes_extended/kubernetes-dashboard/kubernetes-dashboard.md
 
 ## Рабочий пример.
 
@@ -29,11 +30,11 @@ apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
 metadata:
   name: letsencrypt-prod
-  namespace: default
+  namespace: cert-manager
 spec:
   acme:
     server: https://acme-v02.api.letsencrypt.org/directory
-    email: cameda4@yandex.ru
+    email: cameda@yandex.ru
     privateKeySecretRef:
       name: kubernetes-dashboard
     solvers:
@@ -45,7 +46,7 @@ apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
   name: kubernetes-dashboard
-  namespace: default
+  namespace: kubernetes-dashboard
 spec:
   secretName: dashboard-tls-secret
   issuerRef:
