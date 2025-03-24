@@ -10,3 +10,10 @@ helm install \
   --create-namespace \
   argo-cd ./argo-cd/
 ```
+
+```
+login: admin
+password:
+kubectl --namespace argocd get secret argocd-initial-admin-secret \
+  --output jsonpath="{.data.password}" | base64 -d
+```

@@ -89,7 +89,7 @@ spec:
           pathType: Prefix
           backend:
             service:
-              name: argocd-server
+              name: argo-cd-argocd-server
               port:
                 number: 443
 EOF
