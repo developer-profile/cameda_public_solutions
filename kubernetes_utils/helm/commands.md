@@ -42,9 +42,11 @@ helm uninstall <release_name> -n <namespace>
 ```
 
 # Examples.
+```
 helm repo add grafana https://grafana.github.io/helm-charts
 helm repo update
 helm repo list
 helm search repo grafana/grafana
 helm install my-grafana grafana/grafana --namespace monitoring
 helm pull traefik/traefik --version 26.1.0 --untar
+```
