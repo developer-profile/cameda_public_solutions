@@ -37,11 +37,11 @@ docker run --pid=container:http alpine ps aux
 
 ## Работа с контейнерами.
 ```
-Просмотр запущенных контейнеров: docker ps
-Просмотр всех контейнеров: docker ps -a
+docker ps # Просмотр запущенных контейнеров
+docker ps -a # Просмотр всех контейнеров
 
-Остановка всех запущенных контейнеров: docker stop $(docker ps -aq)
-Удаление всех остановленных контейнеров: docker rm $(docker ps -aq)
+docker stop $(docker ps -aq) # Остановка всех запущенных контейнеров
+docker rm $(docker ps -aq) # Удаление всех остановленных контейнеров
 
 docker inspect <container_id>
 docker history 
