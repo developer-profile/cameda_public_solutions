@@ -1,0 +1,49 @@
+
+## Тестирование IOPS, случайная запись.
+## Тестирование пропускной способности, последовательная запись.
+## Тестирование IOPS, последовательная запись&.
+
+cat <<EOF | kubectl apply -f -
+apiVersion: v1
+kind: Pod
+metadata:
+  name: cam-fio-write
+  namespace: default
+  labels:
+    cam: fio
+    fio: write
+spec:
+  containers:
+  - name: fio-write
+    image: cr.yandex/crp59ldu2qv9q43uq5jh/fio:1.0.0
+    imagePullPolicy: IfNotPresent
+    resources: {}
+    volumeMounts:
+    - mountPath: "/mnt/disk"
+      name: my-csi
+    - mountPath: /mnt/s3
+      name: fio-anal
+    command:
+      - /bin/sh
+      - -c
+      - |
+        touch /mnt/s3/fio_writerand && \
+        fio --name=writerand --filename=/mnt/disk/testfile --filesize=1G --direct=1 --rw=randwrite --bs=4k --ioengine=libaio --iodepth=96 --runtime=120 --numjobs=1 --time_based --group_reporting --eta-newline=1 > /mnt/s3/fio_writerand && \
+        sleep 500 && \
+        touch /mnt/s3/fio_writebw && \
+        fio --name=writebw --filename=/mnt/disk/testfile --filesize=1G --direct=1 --rw=write --bs=4M --ioengine=libaio --iodepth=32 --runtime=120 --numjobs=1 --time_based --group_reporting --eta-newline=1 > /mnt/s3/fio_writebw && \
+        sleep 500 && \
+        touch /mnt/s3/fio_writeio && \
+        fio --name=writeio --filename=/mnt/disk/testfile --filesize=1G --direct=1 --rw=write --bs=4k --ioengine=libaio --iodepth=96 --runtime=120 --numjobs=4 --time_based --group_reporting --eta-newline=1 > /mnt/s3/fio_writeio && \\
+        sleep 24h
+  dnsPolicy: ClusterFirst
+  restartPolicy: Always
+  hostname: fio
+  volumes:
+  - name: my-csi
+    persistentVolumeClaim:
+      claimName: pvc-dynamic-ssd
+  - name: fio-anal
+    persistentVolumeClaim:
+      claimName: csi-s3-pvc-dynamic
+EOF

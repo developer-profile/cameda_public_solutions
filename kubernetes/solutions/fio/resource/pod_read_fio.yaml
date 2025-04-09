@@ -1,0 +1,47 @@
+
+## Тестирование IOPS, случайное чтение.
+## Тестирование пропускной способности на чтение.
+## Тестирование IOPS, последовательное чтение.
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: cam-fio-read
+  namespace: default
+  labels:
+    cam: fio
+    fio: read
+spec:
+  containers:
+  - name: fio-read
+    image: cr.yandex/crp59ldu2qv9q43uq5jh/fio:1.0.0
+    imagePullPolicy: IfNotPresent
+    resources: {}
+    volumeMounts:
+    - mountPath: "/mnt/disk"
+      name: my-csi
+    - mountPath: /mnt/s3
+      name: fio-anal
+    command:
+      - /bin/sh
+      - -c
+      - |
+        touch /mnt/s3/fio_readrand && \
+        fio --name=readrand --filename=/mnt/disk/testfile --filesize=1G --direct=1 --rw=randread --bs=4k --ioengine=libaio --iodepth=16 --runtime=120 --numjobs=8 --time_based --group_reporting --eta-newline=1 > /mnt/s3/fio_readrand && \
+        sleep 500 && \
+        touch /mnt/s3/fio_readbw && \
+        fio --name=readbw --filename=/mnt/disk/testfile --filesize=1G --direct=1 --rw=read --bs=4M --ioengine=libaio --iodepth=32 --runtime=120 --numjobs=1 --time_based --group_reporting --eta-newline=1 > /mnt/s3/fio_readbw && \
+        sleep 500 && \
+        touch /mnt/s3/fio_readio && \
+        fio --name=readio --filename=/mnt/disk/testfile --filesize=1G --direct=1 --rw=read --bs=4k --ioengine=libaio --iodepth=128 --runtime=120 --numjobs=8 --time_based --group_reporting --eta-newline=1 > /mnt/s3/fio_readio && \\
+        sleep 24h
+  dnsPolicy: ClusterFirst
+  restartPolicy: Always
+  hostname: fio
+  volumes:
+  - name: my-csi
+    persistentVolumeClaim:
+      claimName: pvc-dynamic-ssd
+  - name: fio-anal
+    persistentVolumeClaim:
+      claimName: csi-s3-pvc-dynamic
