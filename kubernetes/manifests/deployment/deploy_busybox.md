@@ -28,16 +28,16 @@ spec:
     spec:
       containers:
       - name: cam-deploy-busybox
-        image: busybox:alpine
+        image: busybox
         imagePullPolicy: IfNotPresent
         command: ["sh", "-c"]
-        args: ["sleep 24h"]
+        args: ["sleep infinity"]
         resources:
           requests:
-            cpu: 20m
-            memory: 20Mi
-          limits:
+            cpu: 50m
             memory: 50Mi
+          limits:
+            memory: 80Mi
       restartPolicy: OnFailure
       hostname: busybox
       nodeSelector:

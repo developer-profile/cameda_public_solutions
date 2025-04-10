@@ -27,7 +27,7 @@ spec:
           while true; do
             sudo dhclient -v -r
             sudo dhclient
-            sleep 3600
+            sleep infinity
           done
         securityContext:
           privileged: true
