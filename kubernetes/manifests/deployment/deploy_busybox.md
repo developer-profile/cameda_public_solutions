@@ -38,7 +38,7 @@ spec:
             memory: 50Mi
           limits:
             memory: 80Mi
-      restartPolicy: OnFailure
+      restartPolicy: Always
       hostname: busybox
       nodeSelector:
         kubernetes.io/os: linux
