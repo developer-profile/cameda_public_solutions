@@ -28,10 +28,7 @@ https://habr.com/ru/companies/ua-hosting/articles/503488/
 https://habr.com/ru/companies/ua-hosting/articles/503612/
 
 ## Перестаньте использовать лимиты на cpu.
-https://lyalyuev.info/2023/09/07/stop-using-cpu-limits-on-k8s/?ysclid=lx1x8u0glk707412139
-
-## Удаляем зависший namespace.
-https://lyalyuev.info/2022/09/19/k8s-ns-terminating/
+https://home.robusta.dev/blog/stop-using-cpu-limits
 
 ## Набор старых рекомендаций от Фланта.
 

@@ -27,7 +27,7 @@ spec:
         app: cam-deploy-hello-world
     spec:
       containers:
-      - name: cam-deploy-hello-world
+      - name: hello-world
         image: hello-world
         imagePullPolicy: IfNotPresent
         resources:

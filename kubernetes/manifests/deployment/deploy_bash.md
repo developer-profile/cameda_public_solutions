@@ -1,13 +1,13 @@
-# Deployment with Ubuntu 20.04
+# Deployment with Bash
 ```
 cat <<EOF | kubectl apply -f -
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: cam-deploy-ubuntu-focal
+  name: cam-deploy-bash
   namespace: default
   labels:
-    app: ubuntu-focal
+    app: deploy-bash
     environment: test
   annotations:
     author: cameda
@@ -15,7 +15,7 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app: cam-deploy-ubuntu-focal
+      app: cam-deploy-bash
   strategy:
     rollingUpdate:
       maxSurge: 1
@@ -24,22 +24,22 @@ spec:
   template:
     metadata:
       labels:
-        app: cam-deploy-ubuntu-focal
+        app: cam-deploy-bash
     spec:
       containers:
-      - name: focal
-        image: ubuntu:20.04
+      - name: bash
+        image: bash
         imagePullPolicy: IfNotPresent
-        command: ["bash", "-c"]
-        args: ["apt update && apt -y install vim htop traceroute dstat git dnsutils && sleep infinity"]
+        command: ["sh", "-c"]
+        args: ["sleep infinity"]
         resources:
           requests:
-            cpu: 200m
-            memory: 200Mi
+            cpu: 50m
+            memory: 50Mi
           limits:
-            memory: 300Mi
+            memory: 80Mi
       restartPolicy: Always
-      hostname: focal
+      hostname: bash
       nodeSelector:
         kubernetes.io/os: linux
 EOF

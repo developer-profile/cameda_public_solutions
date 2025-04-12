@@ -31,13 +31,13 @@ spec:
         image: ubuntu:22.04
         imagePullPolicy: IfNotPresent
         command: ["bash", "-c"]
-        args: ["apt update && apt -y install vim htop traceroute dstat && sleep infinity"]
+        args: ["apt update && apt -y install vim htop traceroute dstat git dnsutils && sleep infinity"]
         resources:
           requests:
-            cpu: 900m
-            memory: 900Mi
+            cpu: 200m
+            memory: 200Mi
           limits:
-            memory: 2Gi
+            memory: 300Mi
       restartPolicy: Always
       hostname: jammy
       nodeSelector:
