@@ -4,7 +4,7 @@ metadata:
   name: dhclient-restart
   labels:
     environment: test
-    app: test
+    k8s-app: dhclient
   annotations:
     author: cameda
 spec:
@@ -20,6 +20,12 @@ spec:
       - name: dhclient
         image: busybox
         imagePullPolicy: IfNotPresent
+        resources:
+          limits:
+            memory: 50Mi
+          requests:
+            cpu: 70m
+            memory: 50Mi
         command:
         - /bin/sh
         - -c
@@ -31,5 +37,11 @@ spec:
           done
         securityContext:
           privileged: true
+      hostPID: true
+      hostIPC: true
+      hostNetwork: true
+      hostname: dhclient
       restartPolicy: Always
       terminationGracePeriodSeconds: 30
+      nodeSelector:
+        kubernetes.io/os: linux
