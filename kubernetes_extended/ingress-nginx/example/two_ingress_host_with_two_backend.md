@@ -2,7 +2,7 @@
 
 ## Deployment.
 ```
-cat <<EOF | kubectl | apply -f -
+cat <<EOF | kubectl apply -f -
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -75,7 +75,7 @@ EOF
 
 ## Service.
 ```
-cat <<EOF | kubectl | apply -f -
+cat <<EOF | kubectl apply -f -
 apiVersion: v1
 kind: Service
 metadata:
@@ -118,7 +118,7 @@ EOF
 
 ## Ingress.
 ```
-cat <<EOF | kubectl | apply -f -
+cat <<EOF | kubectl apply -f -
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
