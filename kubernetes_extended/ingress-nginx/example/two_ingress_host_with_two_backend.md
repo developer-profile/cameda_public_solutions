@@ -1,3 +1,8 @@
+# Пример одного Ingress с двумя бакендами.
+
+## Deployment.
+```
+cat <<EOF | kubectl | apply -f -
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -65,7 +70,12 @@ spec:
           limits:
             memory: 120M
       restartPolicy: Always
----
+EOF
+```
+
+## Service.
+```
+cat <<EOF | kubectl | apply -f -
 apiVersion: v1
 kind: Service
 metadata:
@@ -103,7 +113,12 @@ spec:
   - name: http
     port: 80
     targetPort: 80
----
+EOF
+```
+
+## Ingress.
+```
+cat <<EOF | kubectl | apply -f -
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -137,3 +152,5 @@ spec:
               name: cam-svc2-test-two
               port:
                 number: 80
+EOF
+```

@@ -1,3 +1,8 @@
+# Пример одного Ingress с одним бакендом. 
+
+## Deployment + Service.
+```
+cat <<EOF | kubectl apply -f -
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -50,7 +55,11 @@ spec:
   - name: http
     port: 80
     targetPort: 80
----
+EOF
+```
+## Ingress.
+```
+cat <<EOF | kubectl apply -f -
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -74,3 +83,5 @@ spec:
               name: cam-svc-test-one
               port:
                 number: 80
+EOF
+```
