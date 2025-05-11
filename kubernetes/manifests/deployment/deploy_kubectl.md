@@ -86,6 +86,7 @@ spec:
             memory: 80Mi
       restartPolicy: Always
       hostname: kubectl
+      serviceAccountName: kubectl-access
       nodeSelector:
         kubernetes.io/os: linux
 EOF
