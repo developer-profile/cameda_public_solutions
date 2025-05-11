@@ -76,7 +76,7 @@ spec:
       - name: cam-deploy-kubectl
         image: bitnami/kubectl
         imagePullPolicy: IfNotPresent
-        command: ["sh", "-c"]
+        command: ["/bin/bash", "-c"]
         args: ["sleep infinity"]
         resources:
           requests:
