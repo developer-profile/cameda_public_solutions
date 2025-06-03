@@ -91,7 +91,7 @@ spec:
               name: minio
               port:
                 number: 9090
-```
+Связываем ip адрес балансировщика с А записью домена.
 
 ### Подключаем SSL сертификат от Let's Encrypt.
 Предполагаю, что Cert Manager уже установлен. 
@@ -129,6 +129,12 @@ spec:
   - minio.cameda1.ru
 EOF
 ```
+#### Получается так.
+```
+kubectl get cert -n minio-dev
+NAME    READY   SECRET             AGE
+minio   True    minio-tls-secret   117s
+```
 
 ### Ingress with cert.
 ```
@@ -140,7 +146,6 @@ metadata:
   namespace: minio-dev
   annotations:
     cert-manager.io/cluster-issuer: "letsencrypt-prod-minio"
-    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
     nginx.ingress.kubernetes.io/auth-tls-verify-client: "false"
 spec:
   ingressClassName: nginx
@@ -158,7 +163,7 @@ spec:
             service:
               name: minio
               port:
-                number: 443
+                number: 9090
 EOF
 ```
 
