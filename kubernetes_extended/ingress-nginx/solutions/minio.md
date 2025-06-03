@@ -1,4 +1,4 @@
-# MinIO
+# MinIO ingress
 
 ## MinIO ingress.
 ```

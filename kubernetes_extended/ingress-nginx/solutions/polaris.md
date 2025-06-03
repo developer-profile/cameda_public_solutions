@@ -1,4 +1,4 @@
-# Ingress для Polaris
+# Polaris ingress
 
 После установки Polaris можно к нему подключаться с помощью port-forward или proxy, а можно создать ingress.
 IP адрес привязываем к А записи домена.
