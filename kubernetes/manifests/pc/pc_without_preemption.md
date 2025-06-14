@@ -27,15 +27,16 @@ cat <<EOF | kubectl apply -f -
 apiVersion: scheduling.k8s.io/v1
 kind: PriorityClass
 metadata:
-  name: cam-pc
+  name: cam-pc-without-preemption
   namespace: default
   labels:
     pc: main
   annotations:
     author: cameda
-value: 200
+value: 20
 globalDefault: false
-description: "PC with preemption"
+preemptionPolicy: Never
+description: "PC without preemption"
 ---
 apiVersion: v1
 kind: Pod
