@@ -26,10 +26,10 @@ helm upgrade --install ingress-nginx ingress-nginx \
 ```
 cat <<EOF | kubectl apply -f -
 apiVersion: cert-manager.io/v1
-kind: ClusterIssuer
+kind: Issuer
 metadata:
-  name: letsencrypt-prod
-  namespace: cert-manager
+  name: argocd
+  namespace: argocd
 spec:
   acme:
     server: https://acme-v02.api.letsencrypt.org/directory
@@ -44,7 +44,7 @@ spec:
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: cert-main
+  name: argocd
   namespace: argocd
 spec:
   secretName: argocd-tls-secret
@@ -55,6 +55,13 @@ spec:
   dnsNames:
   - argocd.cameda1.ru
 EOF
+```
+
+### Получается так.
+```
+kubectl get cert -n argocd
+NAME     READY   SECRET              AGE
+argocd   True    argocd-tls-secret   34s
 ```
 
 ## Создаём ingress правило.
@@ -70,7 +77,7 @@ metadata:
     env: test
   annotations:
     author: cameda
-    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    cert-manager.io/cluster-issuer: "argocd"
     ingress.kubernetes.io/secure-backends: "true"
     nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
     nginx.ingress.kubernetes.io/use-proxy-protocol: "true"
