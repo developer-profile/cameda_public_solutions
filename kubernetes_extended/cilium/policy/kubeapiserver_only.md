@@ -1,5 +1,6 @@
 # Политика, разрешающая взаимодействие только с API Server.
-
+```
+cat <<EOF | kubectl apply -f -
 apiVersion: "cilium.io/v2"
 kind: CiliumNetworkPolicy
 metadata:
@@ -16,8 +17,12 @@ spec:
   egress:
     - toEntities:
       - kube-apiserver
+EOF
+```
 
-# Тестируем.
-k exec -ti deathstar-995dc966-gpwjl -- curl -X GET https://10.1.2.31/api/v1/namespaces/default/pods \
+## Тестируем.
+```
+kubectl exec -ti deathstar-995dc966-gpwjl -- curl -X GET https://10.1.2.31/api/v1/namespaces/default/pods \
   -H "Authorization: Bearer $(yc iam create-token)" \
   -H "Accept: application/json" --insecure
+```
