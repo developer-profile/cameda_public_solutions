@@ -1,6 +1,7 @@
 # Kubernetes-dashboard ingress
 
 ## Установка cert-manager.
+Если не был установлен ранее.
 ```
 helm repo add jetstack https://charts.jetstack.io --force-update
 
@@ -9,7 +10,11 @@ helm upgrade --install cert-manager jetstack/cert-manager \
   --create-namespace \
   --version v1.17.0 \
   --set crds.enabled=true
+```
 
+## Установка ingress controller.
+Если не был установлен ранее.
+```
 helm upgrade --install ingress-nginx ingress-nginx \
 --repo https://kubernetes.github.io/ingress-nginx \
 --namespace ingress-nginx --create-namespace \
@@ -22,6 +27,33 @@ helm upgrade --install ingress-nginx ingress-nginx \
 https://github.com/Cameda/public_solutions/blob/main/kubernetes_extended/kubernetes-dashboard/kubernetes-dashboard.md
 
 ## Рабочий пример.
+
+### Создаём ingress правило без сертификата.
+```
+cat <<EOF | kubectl apply -f -
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: kubernetes-dashboard
+  namespace: kubernetes-dashboard
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: dashboard.cameda1.ru
+      http:
+        paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: kubernetes-dashboard
+              port:
+                number: 80
+EOF
+```
+
+### Прописываем А запись для домена.
+Например, в CloudDNS.
 
 ### Делаем запрос на сертификат.
 ```
@@ -70,7 +102,7 @@ NAMESPACE              NAME                   READY   SECRET                 AGE
 kubernetes-dashboard   kubernetes-dashboard   True    dashboard-tls-secret   108s
 ```
 
-### Создаём ingress правило.
+### Создаём ingress правило с сертификатом.
 ```
 cat <<EOF | kubectl apply -f -
 apiVersion: networking.k8s.io/v1
